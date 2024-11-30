@@ -18,5 +18,5 @@ data BoolExpr
   | Lt ArithExpr ArithExpr
   | Gt ArithExpr ArithExpr
   | Leq ArithExpr ArithExpr
-  | Gtq ArithExpr ArithExpr
+  | Geq ArithExpr ArithExpr
   deriving (Show, Eq)
