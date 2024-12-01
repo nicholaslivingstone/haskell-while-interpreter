@@ -1,11 +1,11 @@
 module Interpreter.ArithmeticInterp where
 
 import WhileLanguage (ArithExpr(..))
-import Interpreter.WhileInterpreter (VarMap)
+import Interpreter.WhileInterpreter (VarMap, WhileError(..))
 import Control.Monad.State
 import qualified Data.Map as Map
 
-type ArithResult = Either String Int
+type ArithResult = Either WhileError Int
 
 -- Arithmetic Expression Interpreter
 interpArith :: ArithExpr -> State VarMap ArithResult
@@ -14,7 +14,7 @@ interpArith (Var v) = do
   varmap <- get
   case Map.lookup v varmap of
     Just n  -> return (Right n)
-    Nothing -> return (Left ("Variable " ++ v ++ " not found"))
+    Nothing -> return (Left (VarNotFound v))
 interpArith (Add ax1 ax2) = interpBinOp (+) ax1 ax2
 interpArith (Sub ax1 ax2) = interpBinOp (-) ax1 ax2
 interpArith (Mul ax1 ax2) = interpBinOp (*) ax1 ax2
