@@ -1,38 +1,42 @@
-cabal-version:      3.0
-name:               haskell-while-interpreter
-version:            0.1.0.0
-synopsis:           A While Programming Language Interpreter Implemented in Haskell
+cabal-version: 3.0
+name: haskell-while-interpreter
+version: 0.1.0.0
+synopsis: A While Programming Language Interpreter Implemented in Haskell
 -- description:
 homepage:
-    https://github.com/nicholaslivingstone/haskell-while-interpreter
+  https://github.com/nicholaslivingstone/haskell-while-interpreter
 
-license:            GPL-3.0-only
-license-file:       LICENSE
-author:             Nicholas Livingstone
-maintainer:         nlivingsto@unm.edu
+license: GPL-3.0-only
+license-file: LICENSE
+author: Nicholas Livingstone
+maintainer: nlivingsto@unm.edu
 -- copyright:
-category:           Development
-build-type:         Simple
+category: Development
+build-type: Simple
+
 -- extra-doc-files:
 -- extra-source-files:
-
 common warnings
-    ghc-options: -Wall
+  ghc-options: -Wall
 
 executable haskell-while-interpreter
-    import:           warnings
-    main-is:          Main.hs
-    hs-source-dirs:   src
-    other-modules:    Expr,
-                        Interpreter.BoolInterp,
-                        Interpreter.ArithmeticInterp,
-                        Parser,
-                        WhileProgram,
-                        ArithTest,
-    -- other-extensions:
-    build-depends:    base,
-                      containers,
-                      mtl,
-                      megaparsec
-    hs-source-dirs:   app
-    default-language: Haskell2010
+  import: warnings
+  main-is: Main.hs
+  hs-source-dirs: src
+  other-modules:
+    ArithTest
+    Expr
+    Interpreter.ArithmeticInterp
+    Interpreter.BoolInterp
+    Parser
+    WhileProgram
+
+  -- other-extensions:
+  build-depends:
+    base,
+    containers,
+    megaparsec,
+    mtl,
+
+  hs-source-dirs: app
+  default-language: Haskell2010
