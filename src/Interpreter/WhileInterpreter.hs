@@ -1,4 +1,4 @@
-module WhileInterpreter where
+module Interpreter.WhileInterpreter where
 
 import qualified Data.Map as Map
 
