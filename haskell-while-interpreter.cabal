@@ -25,7 +25,6 @@ executable haskell-while-interpreter
   hs-source-dirs: src
   other-modules:
     ArithTest
-    Expr
     Interpreter.ArithmeticInterp
     Interpreter.BoolInterp
     Interpreter.WhileInterpreter
