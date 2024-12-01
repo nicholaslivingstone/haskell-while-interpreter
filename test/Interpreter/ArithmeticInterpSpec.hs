@@ -31,4 +31,7 @@ spec = do
           let varmap = Map.fromList [("x", x), ("y", y), ("z", z)]
               expr = Mul (Add (Var "x") (Var "y")) (Neg (Var "z"))
           in evalState (interpArith expr) varmap == Right ((x + y) * (-z))
+    it "Invalid Variable Lookup" $ do
+        let res = evalState (interpArith (Var "x")) emptyVarMap
+        res `shouldBe` Left (VarNotFound "x")
     -- TODO: Add more tests
