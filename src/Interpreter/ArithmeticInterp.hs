@@ -1,6 +1,7 @@
 module Interpreter.ArithmeticInterp where
 
-import WhileProgram (ArithExpr(..), VarMap)
+import WhileLanguage (ArithExpr(..))
+import Interpreter.WhileInterpreter (VarMap)
 import Control.Monad.State 
 import qualified Data.Map as Map
 
