@@ -28,6 +28,7 @@ executable haskell-while-interpreter
     Expr
     Interpreter.ArithmeticInterp
     Interpreter.BoolInterp
+    Interpreter.WhileInterpreter
     Parser
     WhileLanguage
 
