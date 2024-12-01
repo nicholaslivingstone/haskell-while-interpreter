@@ -2,7 +2,7 @@ module Interpreter.ArithmeticInterp where
 
 import WhileLanguage (ArithExpr(..))
 import Interpreter.WhileInterpreter (VarMap)
-import Control.Monad.State 
+import Control.Monad.State
 import qualified Data.Map as Map
 
 type ArithResult = Either String Int
@@ -28,7 +28,7 @@ interpBinOp :: (Int -> Int -> Int) -> ArithExpr -> ArithExpr -> State VarMap Ari
 interpBinOp op ax1 ax2 = do
   r1 <- interpArith ax1
   r2 <- interpArith ax2
-  return $ pure op <*> r1 <*> r2
+  return $ (op <$> r1) <*> r2
 
 -- Interpret Unary Operation
 interpUnaryOp :: (Int -> Int) -> ArithExpr -> State VarMap ArithResult
