@@ -29,7 +29,7 @@ executable haskell-while-interpreter
     Interpreter.ArithmeticInterp
     Interpreter.BoolInterp
     Parser
-    WhileProgram
+    WhileLanguage
 
   -- other-extensions:
   build-depends:
