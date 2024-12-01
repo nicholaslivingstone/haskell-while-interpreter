@@ -1,4 +1,4 @@
-module WhileProgram where
+module WhileLanguage where
 
 import qualified Data.Map as Map
 
