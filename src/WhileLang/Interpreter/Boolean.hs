@@ -1,9 +1,11 @@
-module Interpreter.BoolInterp where
+module WhileLang.Interpreter.Boolean where
 
-import WhileLanguage (BoolExpr(..), ArithExpr(..))
-import Interpreter.WhileInterpreter (VarMap, WhileError(..))
-import Interpreter.ArithmeticInterp (interpArith)
+import WhileLang.Syntax
+import WhileLang.Interpreter.Core (VarMap, WhileError(..))
+import WhileLang.Interpreter.Arithmetic (interpArith)
+
 import Control.Monad.State
+
 
 type BoolResult = Either WhileError Bool
 

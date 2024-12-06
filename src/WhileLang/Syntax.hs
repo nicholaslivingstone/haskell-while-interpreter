@@ -1,4 +1,4 @@
-module WhileLanguage where
+module WhileLang.Syntax where
 
 -- Commands
 data Command

@@ -1,7 +1,8 @@
-module Interpreter.ArithmeticInterp where
+module WhileLang.Interpreter.Arithmetic where
 
-import WhileLanguage (ArithExpr(..))
-import Interpreter.WhileInterpreter (VarMap, WhileError(..))
+import WhileLang.Syntax
+import WhileLang.Interpreter.Core (VarMap, WhileError(..))
+
 import Control.Monad.State
 import qualified Data.Map as Map
 
