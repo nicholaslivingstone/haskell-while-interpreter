@@ -22,11 +22,7 @@ common warnings
 library while-interpreter-lib
   import: warnings
   exposed-modules:
-    WhileLang.Interpreter.Arithmetic
-    WhileLang.Interpreter.Boolean
-    WhileLang.Interpreter.Command
-    WhileLang.Interpreter.Core
-    WhileLang.Interpreter.Runtime
+    WhileLang.Interpreter
     WhileLang.Parser.Parser
     WhileLang.Syntax
 
