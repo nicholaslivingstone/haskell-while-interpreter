@@ -1,6 +1,7 @@
 module WhileLang.Interpreter where
 
 import WhileLang.Syntax
+import Control.Monad (when)
 import Control.Monad.State (StateT, runStateT, get, modify, liftIO)
 import Control.Monad.Except (ExceptT, runExceptT, throwError)
 import qualified Data.Map as Map
@@ -46,9 +47,13 @@ interpCommand (If cond thenCmd elseCmd) = do
   p <- evalBool cond
   let targetCmd = if p then thenCmd else elseCmd
   interpCommand targetCmd
-interpCommand (While cond cmd) = do
--- TODO: Implement While loop
-  return ()
+interpCommand (While cond cmd) = loop
+  where
+    loop = do
+      condVal <- evalBool cond
+      when condVal $ do
+        interpCommand cmd
+        loop
 interpCommand (Seq cmds) = mapM_ interpCommand cmds
 interpCommand (Print str) = liftIO (putStrLn str)
 
