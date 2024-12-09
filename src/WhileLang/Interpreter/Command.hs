@@ -1,4 +1,4 @@
-module Command where
+module WhileLang.Interpreter.Command where
 
 import WhileLang.Syntax (Command(..))
 import WhileLang.Interpreter.Boolean (evalBool)
