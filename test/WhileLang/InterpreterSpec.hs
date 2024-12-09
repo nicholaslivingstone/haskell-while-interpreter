@@ -83,3 +83,18 @@ spec = do
             res <- evalBoolWithState expr varmap
             return $ res == Right ((x < y) || not (z > 0))
 
+  describe "Example AST" $ do
+    it "Factorial" $ do
+        let prog = Seq
+              [ Assign "y" (Num 5)
+              , Assign "z" (Num 1)
+              , While (Gt (Var "y") (Num 1))
+                  (Seq
+                    [ Assign "z" (Mul (Var "z") (Var "y"))
+                    , Assign "y" (Sub (Var "y") (Num 1))
+                    ])
+              , Assign "y" (Num 0)
+              ]
+        res <- runInterpreter prog
+        res `shouldBe` Right (Map.fromList [("y", 0), ("z", 120)])
+
