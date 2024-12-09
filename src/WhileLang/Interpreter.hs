@@ -95,3 +95,8 @@ liftBinOp op a1 a2 = do
   n1 <- evalArith a1
   n2 <- evalArith a2
   return (n1 `op` n2)
+
+-- For Testing
+evalArithWithState :: ArithExpr -> VarMap -> IO (Either WhileError Int)
+evalArithWithState expr varMap =
+  runStateT (runExceptT (evalArith expr)) varMap >>= \(result, _) -> return result
