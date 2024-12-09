@@ -24,6 +24,7 @@ library while-interpreter-lib
   exposed-modules:
     WhileLang.Interpreter.Arithmetic
     WhileLang.Interpreter.Boolean
+    WhileLang.Interpreter.Command
     WhileLang.Interpreter.Core
     WhileLang.Interpreter.Runtime
     WhileLang.Parser.Parser
