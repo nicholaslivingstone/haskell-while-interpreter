@@ -100,3 +100,7 @@ liftBinOp op a1 a2 = do
 evalArithWithState :: ArithExpr -> VarMap -> IO (Either WhileError Int)
 evalArithWithState expr varMap =
   runStateT (runExceptT (evalArith expr)) varMap >>= \(result, _) -> return result
+
+evalBoolWithState :: BoolExpr -> VarMap -> IO (Either WhileError Bool)
+evalBoolWithState expr varMap =
+  runStateT (runExceptT (evalBool expr)) varMap >>= \(result, _) -> return result

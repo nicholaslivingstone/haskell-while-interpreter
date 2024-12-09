@@ -46,4 +46,50 @@ spec = do
     it "Invalid Variable Lookup" $ do
         res <- evalArithWithState (Var "x") emptyVarMap
         res `shouldBe` Left (VarNotFound "x")
+  describe "Boolean Evaluation" $ do
+    it "(Sanity Check) True AND False == False" $ do
+        res <- evalBoolWithState (And (BoolLiteral True) (BoolLiteral False)) emptyVarMap
+        res `shouldBe` Right False
+    it "Boolean Literals" $ property $
+        \b -> ioProperty $ do
+            res <- evalBoolWithState (BoolLiteral b) emptyVarMap
+            return $ res == Right b
+    it "NOT operation" $ property $
+        \b -> ioProperty $ do
+            res <- evalBoolWithState (Not (BoolLiteral b)) emptyVarMap
+            return $ res == Right (not b)
+    it "AND operation" $ property $
+        \b1 b2 -> ioProperty $ do
+            res <- evalBoolWithState (And (BoolLiteral b1) (BoolLiteral b2)) emptyVarMap
+            return $ res == Right (b1 && b2)
+    it "OR operation" $ property $
+        \b1 b2 -> ioProperty $ do
+            res <- evalBoolWithState (Or (BoolLiteral b1) (BoolLiteral b2)) emptyVarMap
+            return $ res == Right (b1 || b2)
+    it "Equality" $ property $
+        \x y -> ioProperty $ do
+            res <- evalBoolWithState (Eq (Num x) (Num y)) emptyVarMap
+            return $ res == Right (x == y)
+    it "Less Than" $ property $
+        \x y -> ioProperty $ do
+            res <- evalBoolWithState (Lt (Num x) (Num y)) emptyVarMap
+            return $ res == Right (x < y)
+    it "Greater Than" $ property $
+        \x y -> ioProperty $ do
+            res <- evalBoolWithState (Gt (Num x) (Num y)) emptyVarMap
+            return $ res == Right (x > y)
+    it "Less Than or Equal" $ property $
+        \x y -> ioProperty $ do
+            res <- evalBoolWithState (Leq (Num x) (Num y)) emptyVarMap
+            return $ res == Right (x <= y)
+    it "Greater Than or Equal" $ property $
+        \x y -> ioProperty $ do
+            res <- evalBoolWithState (Geq (Num x) (Num y)) emptyVarMap
+            return $ res == Right (x >= y)
+    it "A Complex Boolean Expression (x < y OR NOT(z > 0))" $ property $
+        \x y z -> ioProperty $ do
+            let varmap = Map.fromList [("x", x), ("y", y), ("z", z)]
+                expr = Or (Lt (Var "x") (Var "y")) (Not (Gt (Var "z") (Num 0)))
+            res <- evalBoolWithState expr varmap
+            return $ res == Right ((x < y) || not (z > 0))
 
