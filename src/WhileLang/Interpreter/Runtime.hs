@@ -1,8 +1,13 @@
 module WhileLang.Interpreter.Runtime where
 
-import Control.Monad.State (StateT)
-import Control.Monad.Except (ExceptT)
+import WhileLang.Syntax
+import WhileLang.Interpreter.Command (interpCommand)
+import WhileLang.Interpreter.Boolean (evalBool)
+import WhileLang.Interpreter.Arithmetic (evalArith)
+import Control.Monad.State (StateT, runStateT)
+import Control.Monad.Except (ExceptT, runExceptT)
 import qualified Data.Map as Map
+
 
 -- Variables
 type VarName = String
@@ -23,7 +28,11 @@ data WhileError
 type InterpreterMonad = ExceptT WhileError (StateT VarMap IO)
 
 
-
-
+runInterpreter :: Command -> IO (Either WhileError VarMap)
+runInterpreter command = do
+  (result, finalState) <- runStateT (runExceptT (interpCommand command)) emptyVarMap
+  case result of
+    Left err -> return (Left err)
+    Right () -> return (Right finalState)
 
 
