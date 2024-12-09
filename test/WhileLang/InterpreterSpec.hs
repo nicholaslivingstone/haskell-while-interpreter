@@ -97,4 +97,27 @@ spec = do
               ]
         res <- runInterpreter prog
         res `shouldBe` Right (Map.fromList [("y", 0), ("z", 120)])
+    it "Collatz" $ do
+        let prog = Seq
+                [ Assign "n" (Num 27)
+                , Assign "steps" (Num 0)
+                , While (Gt (Var "n") (Num 1))
+                    (Seq
+                        [ Assign "rem" (Var "n")
+                        , Assign "quot" (Num 0)
+                        , While (Gt (Var "rem") (Num 1))
+                            (Seq
+                                [ Assign "rem" (Sub (Var "rem") (Num 2))
+                                , Assign "quot" (Add (Var "quot") (Num 1))
+                                ])
+                        , If (Eq (Var "rem") (Num 0))
+                            (Assign "n" (Var "quot"))
+                            (Assign "n" (Add (Mul (Var "n") (Num 3)) (Num 1)))
+                        , Assign "steps" (Add (Var "steps") (Num 1))
+                        ])
+                , Assign "output" (Var "steps")
+                ]
+
+        res <- runInterpreter prog
+        res `shouldBe` Right (Map.fromList [("n", 1), ("steps", 111), ("quot", 1), ("rem", 0), ("output", 111)])
 
