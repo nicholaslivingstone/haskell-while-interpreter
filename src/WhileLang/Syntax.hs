@@ -1,13 +1,15 @@
 module WhileLang.Syntax where
 
+type VarName = String
+
 -- Commands
 data Command
-  = Assign String ArithExpr
+  = Assign VarName ArithExpr
   | Skip
   | If BoolExpr Command Command
   | While BoolExpr Command
   | Seq [Command]
-  | Print String
+  | Print VarName
 
 -- Arithmetic Expressions
 data ArithExpr

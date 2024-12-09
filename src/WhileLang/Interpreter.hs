@@ -7,7 +7,6 @@ import Control.Monad.Except (ExceptT, runExceptT, throwError)
 import qualified Data.Map as Map
 
 -- Variables
-type VarName = String
 type VarMap = Map.Map VarName Int
 emptyVarMap :: VarMap
 emptyVarMap = Map.empty
@@ -55,7 +54,9 @@ interpCommand (While cond cmd) = loop
         interpCommand cmd
         loop
 interpCommand (Seq cmds) = mapM_ interpCommand cmds
-interpCommand (Print str) = liftIO (putStrLn str)
+interpCommand (Print var) = do
+  val <- evalArith (Var var)
+  liftIO $ print val
 
 -- Boolean Expression Evaluation
 evalBool :: BoolExpr -> InterpreterMonad Bool
