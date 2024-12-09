@@ -1,8 +1,7 @@
 module WhileLang.Interpreter.Arithmetic where
 
 import WhileLang.Syntax (ArithExpr(..))
-import WhileLang.Interpreter.Runtime (InterpreterMonad)
-import WhileLang.Interpreter.Core (WhileError(..))
+import WhileLang.Interpreter.Runtime (InterpreterMonad, WhileError(..))
 import Control.Monad.State  (MonadState(..), get)
 import Control.Monad.Except (throwError)
 import qualified Data.Map as Map
