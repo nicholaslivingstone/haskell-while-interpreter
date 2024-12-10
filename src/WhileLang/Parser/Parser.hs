@@ -31,6 +31,23 @@ lexeme = L.lexeme sc
 symbol :: Text -> Parser Text
 symbol = L.symbol sc
 
+reserved :: [String]
+reserved = [
+            "true"
+          , "false"
+          , "not"
+          , "and"
+          , "or"
+          , "skip"
+          , "if"
+          , "then"
+          , "else"
+          , "fi"
+          , "while"
+          , "do"
+          , "od"
+          ]
+
 -- Operator Boilerplate
 binary :: Text -> (a -> a -> a) -> Operator Parser a
 binary  name f = InfixL  (f <$ symbol name)
@@ -41,8 +58,11 @@ postfix name f = Postfix (f <$ symbol name)
 
 -- Arithmetic Expressions
 pVariable :: Parser ArithExpr
-pVariable = Var <$> lexeme
-  ((:) <$> letterChar <*> many alphaNumChar <?> "variable")
+pVariable = do
+  name <- lexeme ((:) <$> letterChar <*> many alphaNumChar <?> "variable")
+  if name `elem` reserved 
+    then fail $ "keyword " ++ show name ++ " cannot be used as a variable"
+    else return (Var name)
 
 pInteger :: Parser ArithExpr
 pInteger =  Num <$> lexeme L.decimal
