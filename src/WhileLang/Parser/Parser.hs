@@ -130,3 +130,50 @@ pBoolTerm = choice
 pBoolExpr :: Parser BoolExpr
 pBoolExpr = makeExprParser pBoolTerm boolOpTable
 
+-- Command Parsing
+pAssign :: Parser Command
+pAssign = do
+  Var varName <- pVariable <?> "variable assignment"
+  _ <- symbol ":=" <?> "assignment operator"
+  expr <- pArithExpr <?> "arithmetic expression"
+  return (Assign varName expr)
+
+pWhile :: Parser Command
+pWhile = do
+  _ <- symbol "while"
+  cond <- pBoolExpr
+  _ <- symbol "do"
+  body <- pCommand
+  _ <- symbol "od"
+  return $ While cond body
+
+pIf :: Parser Command
+pIf = do
+  _ <- symbol "if"
+  cond <- pBoolExpr
+  _ <- symbol "then"
+  thenBody <- pCommand
+  _ <- symbol "else"
+  elseBody <- pCommand
+  _ <- symbol "fi"
+  return $ If cond thenBody elseBody
+
+pSkip :: Parser Command
+pSkip = Skip <$ symbol "skip"
+
+pCommand :: Parser Command
+pCommand = do
+  cmds <- pSingleCommand `sepBy1` symbol ";"
+  return $ if length cmds == 1 then head cmds else Seq cmds
+
+pSingleCommand :: Parser Command
+pSingleCommand = choice
+  [ pWhile
+  , pIf
+  , pSkip
+  , pAssign
+  ]
+
+pProgram :: Parser Command
+pProgram = pCommand <* eof
+

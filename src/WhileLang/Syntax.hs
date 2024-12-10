@@ -10,6 +10,7 @@ data Command
   | While BoolExpr Command
   | Seq [Command]
   | Print VarName
+  deriving (Show, Eq)
 
 -- Arithmetic Expressions
 data ArithExpr
