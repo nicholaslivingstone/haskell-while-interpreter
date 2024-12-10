@@ -73,3 +73,40 @@ arithOpTable =
 pArithExpr :: Parser ArithExpr
 pArithExpr = makeExprParser pArithTerm arithOpTable
 
+-- Boolean Expression Parser
+pBoolLiteral :: Parser BoolExpr
+pBoolLiteral = BoolLiteral <$> lexeme (True <$ symbol "true" <|> False <$ symbol "false")
+
+brackets :: Parser a -> Parser a
+brackets = between (symbol "[") (symbol "]")
+
+pComparison :: Parser BoolExpr
+pComparison = do
+  left <- pArithExpr
+  op <- choice
+    [ Eq <$ symbol "==" 
+    , Leq <$ try (symbol "<=")
+    , Geq <$ try (symbol ">=")
+    , Lt <$ (symbol "<" <* notFollowedBy (char '='))
+    , Gt <$ (symbol ">" <* notFollowedBy (char '='))
+
+    ]
+  op left <$> pArithExpr
+
+boolOpTable :: [[Operator Parser BoolExpr]]
+boolOpTable = 
+  [ [ prefix "not" Not ]
+  , [ binary "and" And ]
+  , [ binary "or" Or ] 
+  ]
+
+pBoolTerm :: Parser BoolExpr
+pBoolTerm = choice
+  [ pBoolLiteral
+  , pComparison 
+  , brackets pBoolExpr
+  ]
+
+pBoolExpr :: Parser BoolExpr
+pBoolExpr = makeExprParser pBoolTerm boolOpTable
+
