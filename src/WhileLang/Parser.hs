@@ -162,6 +162,12 @@ pIf = do
 pSkip :: Parser Command
 pSkip = Skip <$ symbol "skip"
 
+pPrint :: Parser Command
+pPrint = do
+  _ <- symbol "putvarln"
+  Var varName <- pVariable
+  return $ Print varName
+
 pCommand :: Parser Command
 pCommand = do
   cmds <- pSingleCommand `sepBy1` symbol ";"
@@ -172,6 +178,7 @@ pSingleCommand = choice
   [ pWhile
   , pIf
   , pSkip
+  , pPrint
   , pAssign
   ]
 
