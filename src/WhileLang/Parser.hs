@@ -31,6 +31,9 @@ lexeme = L.lexeme sc
 symbol :: Text -> Parser Text
 symbol = L.symbol sc
 
+pKeyword :: Text -> Parser Text
+pKeyword keyword = lexeme (string keyword <* notFollowedBy alphaNumChar)
+
 reserved :: [String]
 reserved = [
             "true"
@@ -141,26 +144,26 @@ pAssign = do
 
 pWhile :: Parser Command
 pWhile = do
-  _ <- symbol "while"
+  _ <- pKeyword "while"
   cond <- pBoolExpr
-  _ <- symbol "do"
+  _ <- pKeyword "do"
   body <- pCommand
-  _ <- symbol "od"
+  _ <- pKeyword "od"
   return $ While cond body
 
 pIf :: Parser Command
 pIf = do
-  _ <- symbol "if"
+  _ <- pKeyword "if"
   cond <- pBoolExpr
-  _ <- symbol "then"
+  _ <- pKeyword "then"
   thenBody <- pCommand
-  _ <- symbol "else"
+  _ <- pKeyword "else"
   elseBody <- pCommand
-  _ <- symbol "fi"
+  _ <- pKeyword "fi"
   return $ If cond thenBody elseBody
 
 pSkip :: Parser Command
-pSkip = Skip <$ symbol "skip"
+pSkip = Skip <$ pKeyword "skip"
 
 pPrint :: Parser Command
 pPrint = do
@@ -173,12 +176,13 @@ pCommand = do
   cmds <- pSingleCommand `sepBy1` symbol ";"
   return $ if length cmds == 1 then head cmds else Seq cmds
 
+-- This try is weird, I thought lookAhead would be sufficient. 
 pSingleCommand :: Parser Command
 pSingleCommand = choice
-  [ pWhile
-  , pIf
-  , pSkip
-  , pPrint
+  [ try (lookAhead (pKeyword "while") *> pWhile)
+  , try (lookAhead (pKeyword "if") *> pIf)
+  , try (lookAhead (pKeyword "skip") *> pSkip)
+  , try (lookAhead (pKeyword "putvarln") *> pPrint)
   , pAssign
   ]
 
