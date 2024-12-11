@@ -105,7 +105,7 @@ pComparison :: Parser BoolExpr
 pComparison = do
   left <- pArithExpr
   op <- choice
-    [ Eq <$ symbol "==" 
+    [ Eq <$ symbol "=" 
     , Leq <$ try (symbol "<=")
     , Geq <$ try (symbol ">=")
     , Lt <$ (symbol "<" <* notFollowedBy (char '='))

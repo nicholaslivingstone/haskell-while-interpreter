@@ -73,7 +73,7 @@ spec = do
 
     it "Equality" $ property $ \x y -> ioProperty $ runBoolParseTest
       (Eq (expressNum x) (expressNum y))
-      (show x ++ " == " ++ show y)
+      (show x ++ " = " ++ show y)
 
     it "Less Than" $ property $ \x y -> ioProperty $ runBoolParseTest
       (Lt (expressNum x) (expressNum y))
