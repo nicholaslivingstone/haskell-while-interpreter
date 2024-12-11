@@ -42,12 +42,20 @@ executable while-interpreter
   import: warnings
   main-is: Main.hs
   hs-source-dirs: src
+  other-modules:
+    WhileLang.Interpreter
+    WhileLang.Parser
+    WhileLang.Syntax
+
   -- other-extensions:
   build-depends:
     base,
     containers,
     megaparsec,
     mtl,
+    optparse-applicative,
+    parser-combinators,
+    text,
     while-interpreter-lib,
 
   hs-source-dirs: app
