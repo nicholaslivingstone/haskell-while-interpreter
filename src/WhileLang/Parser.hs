@@ -53,6 +53,7 @@ binary :: Text -> (a -> a -> a) -> Operator Parser a
 binary  name f = InfixL  (f <$ symbol name)
 
 prefix, postfix :: Text -> (a -> a) -> Operator Parser a 
+-- TODO: Account for multiple prefix/postfix operators
 prefix  name f = Prefix  (f <$ symbol name)
 postfix name f = Postfix (f <$ symbol name)
 
