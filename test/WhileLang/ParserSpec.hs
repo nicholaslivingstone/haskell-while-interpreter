@@ -15,13 +15,13 @@ import Test.QuickCheck.State (State(expected))
 expressNum :: Int -> ArithExpr
 expressNum n = if n < 0 then Neg (Num (abs n)) else Num n
 
-runGeneralParseText :: (Show a, Eq a) => Parser a -> a -> String -> Expectation
-runGeneralParseText parser expected input = do
+runGeneralParseTest :: (Show a, Eq a) => Parser a -> a -> String -> Expectation
+runGeneralParseTest parser expected input = do
   let result = runParser parser "" (pack input)
   result `shouldBe` Right expected
 
-runArithParseTest = runGeneralParseText pArithExpr
-runBoolParseTest = runGeneralParseText pBoolExpr
+runArithParseTest = runGeneralParseTest pArithExpr
+runBoolParseTest = runGeneralParseTest pBoolExpr
 
 boolToWhileText :: Bool -> String
 boolToWhileText True = "true"
