@@ -61,6 +61,7 @@ test-suite spec
 
   other-modules:
     WhileLang.InterpreterSpec
+    WhileLang.ParserSpec
 
   -- other-extensions:
   build-depends:
@@ -70,6 +71,7 @@ test-suite spec
     hspec,
     megaparsec,
     mtl,
+    text,
     while-interpreter-lib,
 
   hs-source-dirs: app
