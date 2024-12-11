@@ -23,7 +23,7 @@ library while-interpreter-lib
   import: warnings
   exposed-modules:
     WhileLang.Interpreter
-    WhileLang.Parser.Parser
+    WhileLang.Parser
     WhileLang.Syntax
 
   -- other-extensions:
