@@ -5,7 +5,7 @@
 
 {-# LANGUAGE OverloadedStrings #-}
 
-module WhileLang.Parser.Parser where
+module WhileLang.Parser where
 
 import WhileLang.Syntax
 
