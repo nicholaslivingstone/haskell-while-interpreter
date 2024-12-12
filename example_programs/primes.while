@@ -1,0 +1,27 @@
+{-
+Prints all prime numbers between 1 and n.
+-}
+i := 2;
+while i <= n do
+    isPrime := 1; -- Assume `i` is prime initially
+    j := 2;
+    while j * j <= i do
+        temp := i;
+        while temp >= j do
+            temp := temp - j
+        od;
+        if temp = 0 then
+            isPrime := 0
+        else
+            skip
+        fi;
+        j := j + 1
+    od;
+    if isPrime = 1 then
+        putvarln i
+    else
+        skip
+    fi;
+    i := i + 1
+od
+

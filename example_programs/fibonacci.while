@@ -1,0 +1,16 @@
+{-
+Computes the nth Fibonacci number, where n is stored in the variable `n`.
+The result is stored in the variable `output`
+-}
+a := 0;
+b := 1;
+count := 0;
+while count < n do
+    temp := b;
+    b := a + b;
+    a := temp;
+    count := count + 1;
+    putvarln a
+od;
+output := a
+
