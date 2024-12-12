@@ -1,0 +1,11 @@
+{-
+Computes the greatest common divisor (GCD) of two numbers, stored in x and y, and leaves the result in output:
+-}
+while not [x = y] do
+    if x > y then
+        x := x - y
+    else
+        y := y - x
+    fi
+od;
+putvarln x
