@@ -4,7 +4,7 @@ module Main where
 
 import WhileLang.Interpreter
 import WhileLang.Parser hiding (Parser)
-import Options.Applicative hiding (str, value, command)
+import Options.Applicative hiding (value, command)
 import qualified Data.Map as Map
 import Control.Monad.State
 import Control.Monad.Except
@@ -23,12 +23,11 @@ opts = info (optionsParser <**> helper)
  <> progDesc "Run a While program with an optional initial variable mapping"
  <> header "WhileLang Interpreter - A simple interpreter for While programs" )
 
+
 optionsParser :: Parser Options
 optionsParser = Options
-  <$> strOption
-      ( long "file"
-     <> short 'f'
-     <> metavar "FILE"
+  <$> argument str
+      ( metavar "FILE"
      <> help "Path to the While program file" )
   <*> optional (strOption
       ( long "vars"
@@ -41,7 +40,7 @@ parseVarMap input =
   Map.fromList $ map parsePair (splitOn ',' input)
   where
     splitOn :: Char -> String -> [String]
-    splitOn delim str = case break (== delim) str of
+    splitOn delim s = case break (== delim) s of
       (a, ',' : rest) -> a : splitOn delim rest
       (a, _)          -> [a]
 
